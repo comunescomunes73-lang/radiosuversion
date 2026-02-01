@@ -1,7 +1,8 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: main # Si tu rama en GitHub se llama master, cambia main por master
 
+display_url: https://radiosuversion.com
 media_folder: "assets/img"
 
 collections:
@@ -9,9 +10,11 @@ collections:
     label: "Editoriales"
     folder: "content/editoriales"
     create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - {label: "Título", name: "title", widget: "string"}
-      - {label: "Cuerpo", name: "body", widget: "markdown"}
+      - {label: "Fecha", name: "date", widget: "datetime"}
+      - {label: "Contenido", name: "body", widget: "markdown"}
 
   - name: "paginas"
     label: "Pestañas Fijas"
@@ -20,10 +23,22 @@ collections:
         label: "Programación"
         name: "programacion"
         fields:
-          - {label: "Título", name: "titulo", widget: "string"}
-          - label: "Programas"
+          - {label: "Título de la Pestaña", name: "titulo", widget: "string"}
+          - label: "Lista de Programas"
             name: "items"
             widget: "list"
             fields:
-              - {label: "Nombre", name: "nombre", widget: "string"}
-              - {label: "Hora", name: "detalle", widget: "string"}
+              - {label: "Nombre del Programa", name: "nombre", widget: "string"}
+              - {label: "Horario/Detalle", name: "detalle", widget: "string"}
+      
+      - file: "content/quienes.json"
+        label: "Quiénes Somos"
+        name: "quienes"
+        fields:
+          - {label: "Texto Informativo", name: "texto", widget: "text"}
+
+      - file: "content/colabora.json"
+        label: "Colabora"
+        name: "colabora"
+        fields:
+          - {label: "Instrucciones de Colaboración", name: "texto", widget: "text"}
