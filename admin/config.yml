@@ -1,46 +1,31 @@
 backend:
   name: git-gateway
-  branch: main # O master, según tu repo
+  branch: main
 
 media_folder: "assets/img"
-public_folder: "/assets/img"
 
 collections:
-  # ADMINISTRAR NOTICIAS (EDITORIALES)
   - name: "editoriales"
-    label: "Editoriales (Blog)"
+    label: "Editoriales"
     folder: "content/editoriales"
     create: true
-    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    slug: "{{slug}}"
     fields:
       - {label: "Título", name: "title", widget: "string"}
       - {label: "Fecha", name: "date", widget: "datetime"}
       - {label: "Contenido", name: "body", widget: "markdown"}
 
-  # ADMINISTRAR TEXTOS DE LAS OTRAS PESTAÑAS
   - name: "paginas"
-    label: "Contenido de Pestañas"
+    label: "Pestañas Fijas"
     files:
       - file: "content/programacion.json"
-        label: "Pestaña Programación"
+        label: "Programación"
         name: "programacion"
         fields:
-          - {label: "Título Sección", name: "titulo", widget: "string"}
-          - label: "Programas"
+          - {label: "Título", name: "titulo", widget: "string"}
+          - label: "Lista de Programas"
             name: "items"
             widget: "list"
             fields:
-              - {label: "Nombre del Programa", name: "nombre", widget: "string"}
-              - {label: "Horario/Descripción", name: "detalle", widget: "string"}
-
-      - file: "content/quienes.json"
-        label: "Pestaña Quiénes Somos"
-        name: "quienes"
-        fields:
-          - {label: "Texto Principal", name: "texto", widget: "markdown"}
-
-      - file: "content/colabora.json"
-        label: "Pestaña Colabora"
-        name: "colabora"
-        fields:
-          - {label: "Instrucciones de Colaboración", name: "texto", widget: "markdown"}
+              - {label: "Programa", name: "nombre", widget: "string"}
+              - {label: "Horario", name: "detalle", widget: "string"}
