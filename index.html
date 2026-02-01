@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Su-Versión RADIO | La Verdad Revolucionaria</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --morado-base: #1a0b2e;
+            --naranja-energia: #ff8c00;
+            --verde-live: #adff2f;
+            --blanco: #ffffff;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        
+        body {            
+            min-height: 100dvh; background-color: var(--morado-base);            
+            font-family: 'Montserrat', sans-serif; color: var(--blanco); overflow-x: hidden;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        .nav-bar {
+            position: fixed; top: 0; width: 100%; height: 60px;
+            background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; 
+            gap: 10px; z-index: 1000; border-bottom: 1px solid var(--naranja-energia);
+            padding: 0 15px; overflow-x: auto; scrollbar-width: none;
+        }
+        .nav-bar::-webkit-scrollbar { display: none; }
+        @media (max-width: 768px) { .nav-bar { justify-content: flex-start; } }
+
+        .nav-bar button {
+            background: none; border: none; color: white; font-family: 'Montserrat'; 
+            font-weight: 700; font-size: 0.65rem; cursor: pointer; letter-spacing: 1px; 
+            white-space: nowrap; padding: 10px 5px; transition: 0.3s; text-transform: uppercase;
+        }
+        .nav-bar button.active { color: var(--naranja-energia); border-bottom: 2px solid var(--naranja-energia); }
+
+        /* --- REDES SOCIALES --- */
+        .social-sidebar {
+            position: fixed; right: 15px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 15px; z-index: 1005;
+        }
+        .social-item {
+            width: 48px; height: 48px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+        }
+        .social-item img { width: 26px; height: 26px; filter: invert(1); }
+        .social-item:hover { transform: scale(1.1); border-color: var(--naranja-energia); }
+
+        /* --- PESTAÑAS --- */
+        .tab-content { 
+            display: none; width: 100%; padding-top: 85px; padding-bottom: 80px;
+            flex-direction: column; align-items: center; min-height: 100vh;
+        }
+        .tab-content.active { display: flex; }
+
+        /* --- REPRODUCTOR --- */
+        .radio-card {
+            position: relative; width: 100%; max-width: 400px; height: 600px; 
+            background-color: #000; border-radius: 40px; overflow: hidden; 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8); border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; flex-direction: column;
+        }
+        .card-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://udapt.org/wp-content/uploads/2025/01/maxresdefault-1.jpg'); 
+            background-size: cover; background-position: center;
+            filter: saturate(0.9) brightness(0.6) sepia(1.5) hue-rotate(250deg); z-index: 0;
+        }
+        .card-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(26, 11, 46, 0.3) 0%, rgba(26, 11, 46, 0.95) 85%); z-index: 1;
+        }
+        .content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 45px 25px; text-align: center; }
+
+        #playBtn { 
+            width: 90px; height: 90px; border-radius: 50%; border: none; 
+            background: var(--naranja-energia); color: white; font-size: 2rem; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 15px auto; box-shadow: 0 15px 35px rgba(255, 140, 0, 0.4);
+        }
+
+        /* --- SECCIONES DINÁMICAS --- */
+        .section-container { width: 100%; max-width: 600px; padding: 20px; }
+        .info-card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 20px; margin-bottom: 20px; border-left: 5px solid var(--naranja-energia); }
+        .info-card h3 { color: var(--naranja-energia); margin-bottom: 10px; text-transform: uppercase; }
+
+        .whatsapp-float {
+            position: fixed; bottom: 25px; left: 20px; background: #25d366; 
+            width: 55px; height: 55px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; z-index: 1001;
+        }
+
+        .status-badge { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(0, 0, 0, 0.5); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; }
+        .live { color: var(--verde-live); border-color: var(--verde-live); }
+        .dot { width: 8px; height: 8px; background: #555; border-radius: 50%; }
+        .live .dot { background: var(--verde-live); box-shadow: 0 0 10px var(--verde-live); animation: pulse 1.5s infinite; }
+        .logo-area h1 { font-size: 2.6rem; font-weight: 900; letter-spacing: -2px; line-height: 0.9; }
+        .logo-area span { color: var(--naranja-energia); font-weight: 700; letter-spacing: 8px; font-size: 1.1rem; }
+        .volume-container { width: 100%; max-width: 260px; display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.08); padding: 12px 18px; border-radius: 25px; margin-bottom: 25px; }
+        #volumeSlider { flex: 1; accent-color: var(--naranja-energia); }
+        canvas { width: 100%; height: 70px; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+    </style>
+</head>
+<body>
+
+    <nav class="nav-bar">
+        <button onclick="openTab('radio')" id="btn-radio" class="active">RADIO</button>
+        <button onclick="openTab('programacion')" id="btn-programacion">PROGRAMACIÓN</button>
+        <button onclick="openTab('editoriales')" id="btn-editoriales">EDITORIALES</button>
+        <button onclick="openTab('quienes')" id="btn-quienes">QUIÉNES SOMOS</button>
+        <button onclick="openTab('colabora')" id="btn-colabora">COLABORA</button>
+    </nav>
+
+    <div class="social-sidebar">
+        <a href="https://www.instagram.com/su_version.ec" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
+        <a href="https://www.tiktok.com/@su.version" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"></a>
+        <a href="https://whatsapp.com/channel/0029ValaWt8CnA7rQ7im3R2j" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/4423/4423697.png"></a>
+    </div>
+
+    <div id="radio" class="tab-content active">
+        <div class="radio-card">
+            <div class="card-bg"></div><div class="card-overlay"></div>
+            <div class="content">
+                <div class="status-badge" id="statusBox"><div class="dot"></div><span id="statusText">CONECTAR</span></div>
+                <div class="logo-area"><h1>Su-Versión</h1><span>Radio</span></div>
+                <div class="controls-box">
+                    <div class="volume-container"><span>🔈</span><input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.8"><span>🔊</span></div>
+                    <button id="playBtn">▶</button>
+                    <canvas id="visualizer"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="programacion" class="tab-content"><div class="section-container" id="load-programacion"><h2>Programación</h2></div></div>
+    <div id="editoriales" class="tab-content"><div class="section-container" id="load-editoriales"><h2>Editoriales</h2></div></div>
+    <div id="quienes" class="tab-content"><div class="section-container" id="load-quienes"><h2>Quiénes Somos</h2></div></div>
+    <div id="colabora" class="tab-content"><div class="section-container" id="load-colabora"><h2>Colabora</h2></div></div>
+
+    <a href="https://wa.me/593995027293" class="whatsapp-float" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="32"></a>
+
+    <audio id="audio" crossorigin="anonymous" playsinline preload="auto"></audio>
+
+    <script>
+        // --- NAVEGACIÓN ---
+        function openTab(tabName) {
+            document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+            document.querySelectorAll(".nav-bar button").forEach(b => b.classList.remove("active"));
+            document.getElementById(tabName).classList.add("active");
+            document.getElementById("btn-" + tabName).classList.add("active");
+            window.scrollTo(0,0);
+        }
+
+        // --- CARGAR CONTENIDO DEL PANEL ---
+        async function fetchCMS() {
+            try {
+                // Cargar Programas
+                const resProg = await fetch('/content/programacion.json');
+                if(resProg.ok) {
+                    const data = await resProg.json();
+                    document.getElementById('load-programacion').innerHTML = `<h2>${data.titulo}</h2>` + 
+                    data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
+                }
+
+                // Cargar Quiénes Somos
+                const resQ = await fetch('/content/quienes.json');
+                if(resQ.ok) {
+                    const data = await resQ.json();
+                    document.getElementById('load-quienes').innerHTML = `<h2>Quiénes Somos</h2><div class="info-card"><p>${data.texto}</p></div>`;
+                }
+
+                // Cargar Colabora
+                const resC = await fetch('/content/colabora.json');
+                if(resC.ok) {
+                    const data = await resC.json();
+                    document.getElementById('load-colabora').innerHTML = `<h2>Colabora</h2><div class="info-card"><p>${data.texto}</p></div>`;
+                }
+            } catch (e) { console.log("Esperando configuración del panel..."); }
+        }
+        fetchCMS();
+
+        // --- LÓGICA RADIO ORIGINAL ---
+        const audio = document.getElementById('audio');
+        const playBtn = document.getElementById('playBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const statusBox = document.getElementById('statusBox');
+        const statusText = document.getElementById('statusText');
+        const canvas = document.getElementById('visualizer');
+        const ctx = canvas.getContext('2d');
+        const STREAM_URL = "https://radio.radiosuversion.com/listen/suversion/radio.mp3";
+        let audioCtx, analyser, source, dataArray, isPlaying = false;
+
+        function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+        window.addEventListener('resize', resize); resize();
+
+        function setupAudio() {
+            if (audioCtx) return;
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioCtx.createAnalyser();
+            source = audioCtx.createMediaElementSource(audio);
+            source.connect(analyser); analyser.connect(audioCtx.destination);
+            analyser.fftSize = 64; dataArray = new Uint8Array(analyser.frequencyBinCount);
+            draw();
+        }
+
+        volumeSlider.addEventListener('input', (e) => { audio.volume = e.target.value; });
+
+        function draw() {
+            requestAnimationFrame(draw); if(!analyser) return;
+            analyser.getByteFrequencyData(dataArray);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            let x = 0; const barWidth = (canvas.width / dataArray.length) * 2;
+            dataArray.forEach(v => {
+                const h = (v / 255) * canvas.height;
+                ctx.fillStyle = '#ff8c00'; ctx.fillRect(x, canvas.height - h, barWidth - 4, h);
+                x += barWidth;
+            });
+        }
+
+        playBtn.addEventListener('click', () => {
+            if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            if (!isPlaying) {
+                statusText.innerText = "CONECTANDO...";
+                audio.src = STREAM_URL + "?t=" + Date.now(); audio.load();
+                audio.addEventListener('canplaythrough', function start() {
+                    audio.play().then(() => {
+                        playBtn.innerHTML = "||"; statusBox.classList.add('live');
+                        statusText.innerText = "AL AIRE • EN VIVO"; setupAudio(); isPlaying = true;
+                    });
+                    audio.removeEventListener('canplaythrough', start);
+                });
+            } else {
+                audio.pause(); audio.src = ""; playBtn.innerHTML = "▶";
+                statusBox.classList.remove('live'); statusText.innerText = "PAUSADO"; isPlaying = false;
+            }
+        });
+    </script>
+</body>
+</html>
