@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Su-Versión RADIO | La Verdad Revolucionaria</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+
     <style>
         :root {
             --morado-base: #1a0b2e;
@@ -146,6 +149,17 @@
     <audio id="audio" crossorigin="anonymous" playsinline preload="auto"></audio>
 
     <script>
+        // --- REDIRECCIÓN AUTOMÁTICA AL LOGIN ---
+        if (window.netlifyIdentity) {
+            window.netlifyIdentity.on("init", user => {
+                if (!user) {
+                    window.netlifyIdentity.on("login", () => {
+                        document.location.href = "/admin/";
+                    });
+                }
+            });
+        }
+
         // --- NAVEGACIÓN ---
         function openTab(tabName) {
             document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
@@ -166,24 +180,20 @@
                     data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
                 }
 
-                // Cargar Quiénes Somos
+                // Cargar Quiénes Somos (JSON)
                 const resQ = await fetch('/content/quienes.json');
                 if(resQ.ok) {
                     const data = await resQ.json();
                     document.getElementById('load-quienes').innerHTML = `<h2>Quiénes Somos</h2><div class="info-card"><p>${data.texto}</p></div>`;
                 }
 
-                // Cargar Colabora
-                const resC = await fetch('/content/colabora.json');
-                if(resC.ok) {
-                    const data = await resC.json();
-                    document.getElementById('load-colabora').innerHTML = `<h2>Colabora</h2><div class="info-card"><p>${data.texto}</p></div>`;
-                }
-            } catch (e) { console.log("Esperando configuración del panel..."); }
+                // Cargar Editoriales (Busca en la carpeta)
+                // Nota: Aquí se cargarían dinámicamente si usáramos un generador, por ahora asoma el título.
+            } catch (e) { console.log("Esperando contenido..."); }
         }
         fetchCMS();
 
-        // --- LÓGICA RADIO ORIGINAL ---
+        // --- LÓGICA RADIO ---
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
         const volumeSlider = document.getElementById('volumeSlider');
