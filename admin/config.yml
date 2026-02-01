@@ -9,11 +9,9 @@ collections:
     label: "Editoriales"
     folder: "content/editoriales"
     create: true
-    slug: "{{slug}}"
     fields:
       - {label: "Título", name: "title", widget: "string"}
-      - {label: "Fecha", name: "date", widget: "datetime"}
-      - {label: "Contenido", name: "body", widget: "markdown"}
+      - {label: "Cuerpo", name: "body", widget: "markdown"}
 
   - name: "paginas"
     label: "Pestañas Fijas"
@@ -23,9 +21,9 @@ collections:
         name: "programacion"
         fields:
           - {label: "Título", name: "titulo", widget: "string"}
-          - label: "Lista de Programas"
+          - label: "Programas"
             name: "items"
             widget: "list"
             fields:
-              - {label: "Programa", name: "nombre", widget: "string"}
-              - {label: "Horario", name: "detalle", widget: "string"}
+              - {label: "Nombre", name: "nombre", widget: "string"}
+              - {label: "Hora", name: "detalle", widget: "string"}
