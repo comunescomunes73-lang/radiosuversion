@@ -1,0 +1,33 @@
+{
+  "titulo": "📻 Parrilla de Programación",
+  "items": [
+    {
+      "nombre": "06:00 - 09:00 | Noticiero Radio Pichincha",
+      "detalle": "Retransmisión en vivo: El pulso informativo de la región para empezar el día bien informado."
+    },
+    {
+      "nombre": "Durante el Día: Resonancia Popular",
+      "detalle": "Música Social con Enfoque Crítico, Cápsulas de Formación y La Editorial de la Semana."
+    },
+    {
+      "nombre": "18:00 - 19:00 | Agenda Abierta",
+      "detalle": "Análisis de coyuntura para entender el 'porqué' de las noticias (Lunes a Viernes)."
+    },
+    {
+      "nombre": "19:00 - 20:00 | Alternativas",
+      "detalle": "Con la conducción de Pedro Páez. Propuestas y debates necesarios."
+    },
+    {
+      "nombre": "20:30 - 21:30 | Memoria y Lucha",
+      "detalle": "Un espacio dedicado a la defensa y vigilia de los Derechos Humanos."
+    },
+    {
+      "nombre": "Sáb. 16:00 | Diálogo Internacional",
+      "detalle": "Conexión con Radio de las Madres de Plaza de Mayo, conduce Atilio Borón."
+    },
+    {
+      "nombre": "Sáb. 19:00 | La Base",
+      "detalle": "El análisis disruptivo de Pablo Iglesias y su equipo."
+    }
+  ]
+}
