@@ -1,14 +1,35 @@
 backend:
   name: git-gateway
-  branch: main
+  branch: main # Asegúrate de que tu rama en GitHub se llame 'main' y no 'master'
 
 media_folder: "assets/img"
+public_folder: "/assets/img"
 
 collections:
-  - name: "editoriales"
-    label: "Editoriales"
-    folder: "content/editoriales"
-    create: true
+  # SECCIÓN PROGRAMACIÓN
+  - name: "programacion"
+    label: "Programación"
+    file: "content/programacion.json"
     fields:
-      - {label: "Título", name: "title", widget: "string"}
-      - {label: "Contenido", name: "body", widget: "markdown"}
+      - {label: "Título de la Sección", name: "titulo", widget: "string"}
+      - label: "Programas"
+        name: "items"
+        widget: "list"
+        fields:
+          - {label: "Nombre del Programa", name: "nombre", widget: "string"}
+          - {label: "Detalle (Hora/Días)", name: "detalle", widget: "text"}
+
+  # SECCIÓN QUIÉNES SOMOS
+  - name: "quienes"
+    label: "Quiénes Somos"
+    file: "content/quienes.json"
+    fields:
+      - {label: "Texto Descriptivo", name: "texto", widget: "text"}
+
+  # SECCIÓN COLABORA
+  - name: "colabora"
+    label: "Colabora"
+    file: "content/colabora.json"
+    fields:
+      - {label: "Título", name: "titulo", widget: "string"}
+      - {label: "Mensaje", name: "mensaje", widget: "text"}
