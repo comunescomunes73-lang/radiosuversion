@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Su-Versión RADIO | La Verdad Revolucionaria</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root {
             --morado-base: #1a0b2e;
@@ -115,18 +114,10 @@
     </nav>
 
     <div class="social-sidebar">
-        <a href="https://www.youtube.com/@RadioSuVersi%C3%B3n" target="_blank" class="social-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube">
-        </a>
-        <a href="https://www.instagram.com/su_version.ec" target="_blank" class="social-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram">
-        </a>
-        <a href="https://www.tiktok.com/@su.version" target="_blank" class="social-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok">
-        </a>
-        <a href="https://whatsapp.com/channel/0029ValaWt8CnA7rQ7im3R2j" target="_blank" class="social-item">
-            <img src="https://cdn-icons-png.flaticon.com/512/4423/4423697.png" alt="WhatsApp Channel">
-        </a>
+        <a href="https://www.youtube.com/@RadioSuVersi%C3%B3n" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+        <a href="https://www.instagram.com/su_version.ec" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
+        <a href="https://www.tiktok.com/@su.version" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+        <a href="https://whatsapp.com/channel/0029ValaWt8CnA7rQ7im3R2j" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/4423/4423697.png" alt="WhatsApp"></a>
     </div>
 
     <div id="radio" class="tab-content active">
@@ -144,31 +135,15 @@
         </div>
     </div>
 
-    <div id="programacion" class="tab-content"><div class="section-container" id="load-programacion"><h2>Programación</h2></div></div>
-    <div id="quienes" class="tab-content"><div class="section-container" id="load-quienes"><h2>Quiénes Somos</h2></div></div>
-    <div id="colabora" class="tab-content"><div class="section-container" id="load-colabora"><h2>Colabora</h2></div></div>
+    <div id="programacion" class="tab-content"><div class="section-container" id="load-programacion"><h2>Cargando Parrilla...</h2></div></div>
+    <div id="quienes" class="tab-content"><div class="section-container" id="load-quienes"><h2>Cargando Identidad...</h2></div></div>
+    <div id="colabora" class="tab-content"><div class="section-container" id="load-colabora"><h2>Cargando Formas de Apoyo...</h2></div></div>
 
     <a href="https://wa.me/593995027293" class="whatsapp-float" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="32"></a>
 
     <audio id="audio" crossorigin="anonymous" playsinline preload="auto"></audio>
 
     <script>
-        // --- LÓGICA DE REDIRECCIÓN AL PANEL ---
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/admin/";
-                    });
-                }
-            });
-            // Forzar redirección si ya está logueado y cierra el widget
-            window.netlifyIdentity.on("login", () => {
-                window.location.href = "/admin/";
-            });
-        }
-
-        // --- NAVEGACIÓN ---
         function openTab(tabName) {
             document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
             document.querySelectorAll(".nav-bar button").forEach(b => b.classList.remove("active"));
@@ -179,22 +154,32 @@
 
         async function fetchCMS() {
             try {
+                // 1. Cargar Programación
                 const resProg = await fetch('/content/programacion.json');
                 if(resProg.ok) {
                     const data = await resProg.json();
                     document.getElementById('load-programacion').innerHTML = `<h2>${data.titulo}</h2>` + 
                     data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
                 }
+
+                // 2. Cargar Quiénes Somos
                 const resQ = await fetch('/content/quienes.json');
                 if(resQ.ok) {
                     const data = await resQ.json();
-                    document.getElementById('load-quienes').innerHTML = `<h2>Quiénes Somos</h2><div class="info-card"><p>${data.texto}</p></div>`;
+                    document.getElementById('load-quienes').innerHTML = `<h2>¿Quiénes Somos?</h2><div class="info-card"><p>${data.texto}</p></div>`;
                 }
-            } catch (e) { console.log("Esperando contenido..."); }
+
+                // 3. Cargar Colabora
+                const resCol = await fetch('/content/colabora.json');
+                if(resCol.ok) {
+                    const data = await resCol.json();
+                    document.getElementById('load-colabora').innerHTML = `<h2>${data.titulo}</h2>` + 
+                    data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
+                }
+            } catch (e) { console.log("Cargando contenidos..."); }
         }
         fetchCMS();
 
-        // Lógica de Radio
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
         const volumeSlider = document.getElementById('volumeSlider');
