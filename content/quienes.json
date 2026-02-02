@@ -1,3 +1,25 @@
 {
-  "texto": "### Nuestra Identidad\nRadio SuVersión nace como una iniciativa del **Partido Comunista del Ecuador - Comunes**, un destacamento que reivindica la semilla sembrada en 1926. No somos un ejercicio de nostalgia, sino una herramienta de lucha para la unidad de las fuerzas populares.\n\n### Amplitud y Autonomía\nSomos un espacio amplio e independiente. Radio SuVersión se gestiona con libertad para vincular a organizaciones sociales e individuos comprometidos con el pensamiento crítico, ofreciendo una alternativa real ante la censura de los algoritmos de las redes sociales.\n\n### Nuestro Lema\n**\"Contra el negocio de venderte ignorancia como libertad.\"**\n\n### 📢 Convocatoria: Tu Voz en SuVersión\n¿Tienes algo que decir? Buscamos proyectos de:\n* **Análisis Político:** Debate y discusión ideológica.\n* **Voz Comunitaria:** Espacios para movimientos de base.\n* **Cultura y Resistencia:** Música y filosofía crítica.\n* **Derechos Humanos:** Memoria y lucha social.\n\n**¿Qué ofrecemos?** Espacio libre de censura, acompañamiento técnico e integración a una parrilla con referentes como Atilio Borón y Pablo Iglesias.\n\n**Contacto:** Haz clic en el ícono de WhatsApp de la página principal.\n\n*José Molina Ramón - Director Sistema de Comunicación SuVersión*"
+  "titulo": "Nuestra Identidad: ¿Quiénes Somos?",
+  "secciones": [
+    {
+      "subtitulo": "Identidad y Lucha",
+      "contenido": "Radio SuVersión nace como una iniciativa del Partido Comunista del Ecuador - Comunes. Nuestra historia no es un ejercicio de nostalgia, sino una herramienta de lucha para la unidad de las fuerzas populares."
+    },
+    {
+      "subtitulo": "Amplitud y Autonomía",
+      "contenido": "Somos un espacio amplio e independiente. Gestionamos con plena libertad la vinculación de organizaciones sociales y movimientos comprometidos con el pensamiento crítico."
+    },
+    {
+      "subtitulo": "Nuestro Lema",
+      "contenido": "**\"Contra el negocio de venderte ignorancia como libertad.\"**"
+    },
+    {
+      "subtitulo": "📢 Convocatoria Abierta",
+      "contenido": "Buscamos proyectos de análisis político, voz comunitaria, cultura y derechos humanos. Ofrecemos un espacio libre de censura previa y acompañamiento técnico."
+    },
+    {
+      "subtitulo": "Contacto",
+      "contenido": "Súmate a la comunicación popular. Dale clic al ícono de WhatsApp.\n\n**José Molina Ramón**\nDirector Sistema de Comunicación SuVersión"
+    }
+  ]
 }
