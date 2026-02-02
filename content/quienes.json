@@ -1,25 +1,3 @@
 {
-  "titulo": "Nuestra Identidad: ¿Quiénes Somos?",
-  "secciones": [
-    {
-      "subtitulo": "Identidad y Lucha",
-      "contenido": "Radio SuVersión nace como una iniciativa del Partido Comunista del Ecuador - Comunes. Nuestra historia no es un ejercicio de nostalgia, sino una herramienta de lucha para la unidad de las fuerzas populares."
-    },
-    {
-      "subtitulo": "Amplitud y Autonomía",
-      "contenido": "Somos un espacio amplio e independiente. Gestionamos con plena libertad la vinculación de organizaciones sociales y movimientos comprometidos con el pensamiento crítico."
-    },
-    {
-      "subtitulo": "Nuestro Lema",
-      "contenido": "**\"Contra el negocio de venderte ignorancia como libertad.\"**"
-    },
-    {
-      "subtitulo": "📢 Convocatoria Abierta",
-      "contenido": "Buscamos proyectos de análisis político, voz comunitaria, cultura y derechos humanos. Ofrecemos un espacio libre de censura previa y acompañamiento técnico."
-    },
-    {
-      "subtitulo": "Contacto",
-      "contenido": "Súmate a la comunicación popular. Dale clic al ícono de WhatsApp.\n\n**José Molina Ramón**\nDirector Sistema de Comunicación SuVersión"
-    }
-  ]
+  "texto": "<b>Nuestra Identidad: ¿Quiénes Somos?</b><br><br>Radio SuVersión nace como una iniciativa del Partido Comunista del Ecuador - Comunes. Nuestra historia no es un ejercicio de nostalgia, sino una herramienta de lucha para la unidad de las fuerzas populares.<br><br><b>Amplitud y Autonomía</b><br><br>Somos un espacio amplio e independiente. Gestionamos con plena libertad la vinculación de organizaciones sociales y movimientos comprometidos con el pensamiento crítico.<br><br><b>Nuestro Lema</b><br><br><i>'Contra el negocio de venderte ignorancia como libertad.'</i><br><br><b>📢 Convocatoria Abierta</b><br><br>Buscamos proyectos de análisis político, voz comunitaria, cultura y derechos humanos. Ofrecemos un espacio libre de censura previa y acompañamiento técnico.<br><br><b>Contacto</b><br><br>Súmate a la construcción de la comunicación popular. Dale clic al ícono de WhatsApp.<br><br><b>José Molina Ramón</b><br>Director Sistema de Comunicación SuVersión"
 }
