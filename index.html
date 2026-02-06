@@ -6,33 +6,100 @@
     <title>Su-Versión RADIO | La Verdad Revolucionaria</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <meta name="description" content="Radio Su-Versión: Comunicación popular, soberanía y pensamiento crítico desde Ecuador.">
+    <meta name="description" content="Radio Su-Versión: Comunicación popular, soberanía y pensamiento crítico desde Ecuador. Contra el negocio de venderte ignorancia como libertad.">
+    <meta property="og:type" content="website">
     <meta property="og:title" content="📻 Su-Versión RADIO | La Verdad Revolucionaria">
+    <meta property="og:description" content="Escucha en vivo la radio que rompe el cerco mediático. Análisis político, cultura y resistencia.">
     <meta property="og:image" content="https://udapt.org/wp-content/uploads/2025/01/maxresdefault-1.jpg">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3012/3012231.png">
 
     <style>
-        :root { --morado-base: #1a0b2e; --naranja-energia: #ff8c00; --verde-live: #adff2f; --blanco: #ffffff; }
+        :root {
+            --morado-base: #1a0b2e;
+            --naranja-energia: #ff8c00;
+            --verde-live: #adff2f;
+            --blanco: #ffffff;
+        }
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { min-height: 100dvh; background-color: var(--morado-base); font-family: 'Montserrat', sans-serif; color: var(--blanco); overflow-x: hidden; }
-        .nav-bar { position: fixed; top: 0; width: 100%; height: 60px; background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; gap: 15px; z-index: 1000; border-bottom: 1px solid var(--naranja-energia); padding: 0 15px; overflow-x: auto; scrollbar-width: none; }
-        .nav-bar button { background: none; border: none; color: white; font-family: 'Montserrat'; font-weight: 700; font-size: 0.65rem; cursor: pointer; letter-spacing: 1px; white-space: nowrap; padding: 10px 5px; transition: 0.3s; text-transform: uppercase; }
+        
+        body {
+            min-height: 100dvh; background-color: var(--morado-base);
+            font-family: 'Montserrat', sans-serif; color: var(--blanco); overflow-x: hidden;
+        }
+
+        /* --- NAVEGACIÓN --- */
+        .nav-bar {
+            position: fixed; top: 0; width: 100%; height: 60px;
+            background: rgba(0,0,0,0.95); display: flex; align-items: center; justify-content: center; 
+            gap: 15px; z-index: 1000; border-bottom: 1px solid var(--naranja-energia);
+            padding: 0 15px; overflow-x: auto; scrollbar-width: none;
+        }
+        .nav-bar::-webkit-scrollbar { display: none; }
+        @media (max-width: 768px) { .nav-bar { justify-content: flex-start; } }
+
+        .nav-bar button {
+            background: none; border: none; color: white; font-family: 'Montserrat'; 
+            font-weight: 700; font-size: 0.65rem; cursor: pointer; letter-spacing: 1px; 
+            white-space: nowrap; padding: 10px 5px; transition: 0.3s; text-transform: uppercase;
+        }
         .nav-bar button.active { color: var(--naranja-energia); border-bottom: 2px solid var(--naranja-energia); }
-        .tab-content { display: none; width: 100%; padding-top: 85px; padding-bottom: 80px; flex-direction: column; align-items: center; min-height: 100vh; }
+
+        /* --- REDES SOCIALES --- */
+        .social-sidebar {
+            position: fixed; right: 15px; top: 50%; transform: translateY(-50%);
+            display: flex; flex-direction: column; gap: 12px; z-index: 1005;
+        }
+        .social-item {
+            width: 48px; height: 48px; background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px; display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px);
+        }
+        .social-item img { width: 26px; height: 26px; filter: invert(1); }
+        .social-item:hover { transform: scale(1.1); border-color: var(--naranja-energia); }
+
+        /* --- PESTAÑAS --- */
+        .tab-content { 
+            display: none; width: 100%; padding-top: 85px; padding-bottom: 80px;
+            flex-direction: column; align-items: center; min-height: 100vh;
+        }
         .tab-content.active { display: flex; }
+
+        /* --- REPRODUCTOR --- */
+        .radio-card {
+            position: relative; width: 100%; max-width: 400px; height: 600px; 
+            background-color: #000; border-radius: 40px; overflow: hidden; 
+            box-shadow: 0 40px 80px rgba(0,0,0,0.8); border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex; flex-direction: column;
+        }
+        .card-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://udapt.org/wp-content/uploads/2025/01/maxresdefault-1.jpg'); 
+            background-size: cover; background-position: center;
+            filter: saturate(0.9) brightness(0.6) sepia(1.5) hue-rotate(250deg); z-index: 0;
+        }
+        .card-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(180deg, rgba(26, 11, 46, 0.3) 0%, rgba(26, 11, 46, 0.95) 85%); z-index: 1;
+        }
+        .content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 45px 25px; text-align: center; }
+
+        #playBtn { 
+            width: 90px; height: 90px; border-radius: 50%; border: none; 
+            background: var(--naranja-energia); color: white; font-size: 2rem; 
+            cursor: pointer; display: flex; align-items: center; justify-content: center; 
+            margin: 0 auto 15px auto; box-shadow: 0 15px 35px rgba(255, 140, 0, 0.4);
+        }
+
         .section-container { width: 100%; max-width: 600px; padding: 20px; }
         .info-card { background: rgba(255,255,255,0.05); padding: 25px; border-radius: 20px; margin-bottom: 20px; border-left: 5px solid var(--naranja-energia); transition: 0.3s; }
-        .info-card h3 { color: var(--naranja-energia); margin-bottom: 10px; text-transform: uppercase; font-size: 1rem; }
-        /* Estilos del reproductor se mantienen igual a tu versión original */
-        .radio-card { position: relative; width: 100%; max-width: 400px; height: 600px; background-color: #000; border-radius: 40px; overflow: hidden; box-shadow: 0 40px 80px rgba(0,0,0,0.8); border: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; }
-        .card-bg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: url('https://udapt.org/wp-content/uploads/2025/01/maxresdefault-1.jpg'); background-size: cover; background-position: center; filter: saturate(0.9) brightness(0.6) sepia(1.5) hue-rotate(250deg); z-index: 0; }
-        .card-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(26, 11, 46, 0.3) 0%, rgba(26, 11, 46, 0.95) 85%); z-index: 1; }
-        .content { position: relative; z-index: 10; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: space-between; padding: 45px 25px; text-align: center; }
-        #playBtn { width: 90px; height: 90px; border-radius: 50%; border: none; background: var(--naranja-energia); color: white; font-size: 2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px auto; box-shadow: 0 15px 35px rgba(255, 140, 0, 0.4); }
-        .social-sidebar { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 1005; }
-        .social-item { width: 48px; height: 48px; background: rgba(255, 255, 255, 0.1); border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: 0.3s; border: 1px solid rgba(255,255,255,0.1); backdrop-filter: blur(5px); }
-        .social-item img { width: 26px; height: 26px; filter: invert(1); }
-        .whatsapp-float { position: fixed; bottom: 25px; left: 20px; background: #25d366; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 1001; }
+        .info-card h3 { color: var(--naranja-energia); margin-bottom: 10px; text-transform: uppercase; font-size: 1.1rem; }
+
+        .whatsapp-float {
+            position: fixed; bottom: 25px; left: 20px; background: #25d366; 
+            width: 55px; height: 55px; border-radius: 50%; display: flex; 
+            align-items: center; justify-content: center; z-index: 1001;
+        }
+
         .status-badge { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(0, 0, 0, 0.5); padding: 8px 18px; border-radius: 30px; font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; }
         .live { color: var(--verde-live); border-color: var(--verde-live); }
         .dot { width: 8px; height: 8px; background: #555; border-radius: 50%; }
@@ -56,10 +123,10 @@
     </nav>
 
     <div class="social-sidebar">
-        <a href="https://www.youtube.com/@RadioSuVersi%C3%B3n" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png"></a>
-        <a href="https://www.instagram.com/su_version.ec" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png"></a>
-        <a href="https://www.tiktok.com/@su.version" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png"></a>
-        <a href="https://whatsapp.com/channel/0029ValaWt8CnA7rQ7im3R2j" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/4423/4423697.png"></a>
+        <a href="https://www.youtube.com/@RadioSuVersi%C3%B3n" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384060.png" alt="YouTube"></a>
+        <a href="https://www.instagram.com/su_version.ec" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram"></a>
+        <a href="https://www.tiktok.com/@su.version" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" alt="TikTok"></a>
+        <a href="https://whatsapp.com/channel/0029ValaWt8CnA7rQ7im3R2j" target="_blank" class="social-item"><img src="https://cdn-icons-png.flaticon.com/512/4423/4423697.png" alt="WhatsApp"></a>
     </div>
 
     <div id="radio" class="tab-content active">
@@ -82,7 +149,7 @@
             <h2>Actualidad Su-Versión</h2>
             <div id="load-noticias">Buscando últimas noticias...</div>
             <br>
-            <a href="https://su-version-ec.blogspot.com/" target="_blank" style="color:var(--naranja-energia); text-decoration:none; font-weight:900; font-size:0.7rem;">IR AL PORTAL COMPLETO ↗</a>
+            <a href="https://su-version-ec.blogspot.com/" target="_blank" style="color:var(--naranja-energia); text-decoration:none; font-weight:900; font-size:0.75rem;">IR AL PORTAL COMPLETO ↗</a>
         </div>
     </div>
 
@@ -105,43 +172,45 @@
 
         async function fetchCMS() {
             try {
-                // Contenidos Locales
+                // Programación
                 fetch('/content/programacion.json').then(r => r.json()).then(data => {
                     document.getElementById('load-programacion').innerHTML = `<h2>${data.titulo}</h2>` + data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
                 });
+                // Quiénes Somos
                 fetch('/content/quienes.json').then(r => r.json()).then(data => {
-                    document.getElementById('load-quienes').innerHTML = `<h2>Quiénes Somos</h2><div class="info-card"><p>${data.texto}</p></div>`;
+                    document.getElementById('load-quienes').innerHTML = `<h2>¿Quiénes Somos?</h2><div class="info-card"><p>${data.texto}</p></div>`;
                 });
+                // Colabora
                 fetch('/content/colabora.json').then(r => r.json()).then(data => {
                     document.getElementById('load-colabora').innerHTML = `<h2>${data.titulo}</h2>` + data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
                 });
 
-               // NOTICIAS RSS CON DESCRIPCIÓN
+                // NOTICIAS (Blogger vía RSS2JSON con Extracto)
                 const rssUrl = encodeURIComponent('https://su-version-ec.blogspot.com/feeds/posts/default?alt=rss');
                 fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`)
-                .then(r => r.ok ? r.json() : null)
+                .then(r => r.json())
                 .then(data => {
-                    if(data && data.status === 'ok') {
+                    if(data.status === 'ok') {
                         document.getElementById('load-noticias').innerHTML = data.items.slice(0, 3).map(item => {
-                            // Limpiamos el texto para que no salgan códigos HTML raros y solo el primer párrafo
-                            let extracto = item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + "...";
-                            
+                            let resumen = item.description.replace(/<[^>]*>?/gm, '').substring(0, 160) + "...";
                             return `
                                 <div class="info-card" onclick="window.open('${item.link}', '_blank')" style="cursor:pointer;">
                                     <span style="font-size:0.7rem; color:var(--naranja-energia); font-weight:900;">${new Date(item.pubDate).toLocaleDateString()}</span>
                                     <h3>${item.title}</h3>
-                                    <p style="font-size:0.85rem; line-height:1.4; opacity:0.9; margin-top:8px;">${extracto}</p>
+                                    <p style="font-size:0.85rem; line-height:1.4; opacity:0.9; margin-top:8px;">${resumen}</p>
                                     <p style="font-size:0.75rem; color:var(--naranja-energia); margin-top:10px; font-weight:700;">Seguir leyendo ↗</p>
-                                </div>
-                            `;
+                                </div>`;
                         }).join('');
                     } else { throw new Error(); }
                 })
                 .catch(() => {
                     document.getElementById('load-noticias').innerHTML = `<div class="info-card" onclick="window.open('https://su-version-ec.blogspot.com/', '_blank')" style="cursor:pointer; text-align:center;"><h3>📰 LEER ÚLTIMAS NOTICIAS</h3><p>Haz clic para abrir el portal oficial de Su-Versión.</p></div>`;
                 });
+            } catch (e) { console.log("Cargando..."); }
+        }
+        fetchCMS();
 
-        // Lógica de Radio (Reproductor y Visualizador)
+        // REPRODUCTOR DE AUDIO
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
         const volumeSlider = document.getElementById('volumeSlider');
@@ -199,4 +268,3 @@
     </script>
 </body>
 </html>
-
