@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Su-Versión RADIO | La Verdad Revolucionaria</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <meta name="description" content="Radio Su-Versión: Comunicación popular, soberanía y pensamiento crítico desde Ecuador. Contra el negocio de venderte ignorancia como libertad.">
     <meta property="og:type" content="website">
     <meta property="og:title" content="📻 Su-Versión RADIO | La Verdad Revolucionaria">
     <meta property="og:description" content="Escucha en vivo la radio que rompe el cerco mediático. Análisis político, cultura y resistencia.">
     <meta property="og:image" content="https://udapt.org/wp-content/uploads/2025/01/maxresdefault-1.jpg">
     <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3012/3012231.png">
+
     <style>
         :root {
             --morado-base: #1a0b2e;
@@ -114,6 +116,7 @@
 
     <nav class="nav-bar">
         <button onclick="openTab('radio')" id="btn-radio" class="active">RADIO</button>
+        <button onclick="openTab('noticias')" id="btn-noticias">NOTICIAS</button>
         <button onclick="openTab('programacion')" id="btn-programacion">PROGRAMACIÓN</button>
         <button onclick="openTab('quienes')" id="btn-quienes">QUIÉNES SOMOS</button>
         <button onclick="openTab('colabora')" id="btn-colabora">COLABORA</button>
@@ -141,6 +144,15 @@
         </div>
     </div>
 
+    <div id="noticias" class="tab-content">
+        <div class="section-container">
+            <h2>Actualidad Su-Versión</h2>
+            <div id="load-noticias">Cargando noticias...</div>
+            <br>
+            <a href="https://su-version-ec.blogspot.com/" target="_blank" style="color:var(--naranja-energia); text-decoration:none; font-weight:900; font-size:0.8rem; letter-spacing:1px;">IR AL PORTAL DE NOTICIAS ↗</a>
+        </div>
+    </div>
+
     <div id="programacion" class="tab-content"><div class="section-container" id="load-programacion"><h2>Cargando Parrilla...</h2></div></div>
     <div id="quienes" class="tab-content"><div class="section-container" id="load-quienes"><h2>Cargando Identidad...</h2></div></div>
     <div id="colabora" class="tab-content"><div class="section-container" id="load-colabora"><h2>Cargando Formas de Apoyo...</h2></div></div>
@@ -160,7 +172,7 @@
 
         async function fetchCMS() {
             try {
-                // 1. Cargar Programación
+                // 1. Programación
                 const resProg = await fetch('/content/programacion.json');
                 if(resProg.ok) {
                     const data = await resProg.json();
@@ -168,24 +180,50 @@
                     data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
                 }
 
-                // 2. Cargar Quiénes Somos
+                // 2. Quiénes Somos
                 const resQ = await fetch('/content/quienes.json');
                 if(resQ.ok) {
                     const data = await resQ.json();
                     document.getElementById('load-quienes').innerHTML = `<h2>¿Quiénes Somos?</h2><div class="info-card"><p>${data.texto}</p></div>`;
                 }
 
-                // 3. Cargar Colabora
+                // 3. Colabora
                 const resCol = await fetch('/content/colabora.json');
                 if(resCol.ok) {
                     const data = await resCol.json();
                     document.getElementById('load-colabora').innerHTML = `<h2>${data.titulo}</h2>` + 
                     data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
                 }
-            } catch (e) { console.log("Cargando contenidos..."); }
+
+                // 4. NOTICIAS (Blogger con Manejo de Errores)
+                fetch('https://api.allorigins.win/get?url=' + encodeURIComponent('https://su-version-ec.blogspot.com/feeds/posts/default?alt=json'))
+                .then(r => r.ok ? r.json() : null)
+                .then(wrapper => {
+                    if(!wrapper) throw new Error();
+                    const data = JSON.parse(wrapper.contents);
+                    const entries = data.feed.entry || [];
+                    document.getElementById('load-noticias').innerHTML = entries.slice(0, 3).map(e => {
+                        const link = e.link.find(l => l.rel === 'alternate').href;
+                        return `<div class="info-card" onclick="window.open('${link}', '_blank')" style="cursor:pointer;">
+                            <span style="font-size:0.7rem; color:var(--naranja-energia); font-weight:900;">${new Date(e.published.$t).toLocaleDateString()}</span>
+                            <h3 style="margin-top:5px;">${e.title.$t}</h3>
+                            <p style="font-size:0.8rem; opacity:0.8;">Haga clic para leer la noticia...</p>
+                        </div>`;
+                    }).join('');
+                })
+                .catch(() => {
+                    document.getElementById('load-noticias').innerHTML = `
+                        <div class="info-card" onclick="window.open('https://su-version-ec.blogspot.com/', '_blank')" style="cursor:pointer; text-align:center;">
+                            <h3>📰 Leer Últimas Noticias</h3>
+                            <p>Haz clic para abrir el portal de noticias oficial de Su-Versión.</p>
+                        </div>`;
+                });
+
+            } catch (e) { console.log("Cargando..."); }
         }
         fetchCMS();
 
+        // --- LÓGICA DE AUDIO ---
         const audio = document.getElementById('audio');
         const playBtn = document.getElementById('playBtn');
         const volumeSlider = document.getElementById('volumeSlider');
@@ -243,4 +281,3 @@
     </script>
 </body>
 </html>
-
