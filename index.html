@@ -116,28 +116,30 @@
                     document.getElementById('load-colabora').innerHTML = `<h2>${data.titulo}</h2>` + data.items.map(i => `<div class="info-card"><h3>${i.nombre}</h3><p>${i.detalle}</p></div>`).join('');
                 });
 
-                // NOTICIAS RSS SIMPLE (vía RSS2JSON gratuito)
+               // NOTICIAS RSS CON DESCRIPCIÓN
                 const rssUrl = encodeURIComponent('https://su-version-ec.blogspot.com/feeds/posts/default?alt=rss');
                 fetch(`https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`)
-                .then(r => r.json())
+                .then(r => r.ok ? r.json() : null)
                 .then(data => {
-                    if(data.status === 'ok') {
-                        document.getElementById('load-noticias').innerHTML = data.items.slice(0, 3).map(item => `
-                            <div class="info-card" onclick="window.open('${item.link}', '_blank')" style="cursor:pointer;">
-                                <span style="font-size:0.7rem; color:var(--naranja-energia); font-weight:900;">${new Date(item.pubDate).toLocaleDateString()}</span>
-                                <h3>${item.title}</h3>
-                                <p>Haga clic para leer la noticia...</p>
-                            </div>
-                        `).join('');
+                    if(data && data.status === 'ok') {
+                        document.getElementById('load-noticias').innerHTML = data.items.slice(0, 3).map(item => {
+                            // Limpiamos el texto para que no salgan códigos HTML raros y solo el primer párrafo
+                            let extracto = item.description.replace(/<[^>]*>?/gm, '').substring(0, 150) + "...";
+                            
+                            return `
+                                <div class="info-card" onclick="window.open('${item.link}', '_blank')" style="cursor:pointer;">
+                                    <span style="font-size:0.7rem; color:var(--naranja-energia); font-weight:900;">${new Date(item.pubDate).toLocaleDateString()}</span>
+                                    <h3>${item.title}</h3>
+                                    <p style="font-size:0.85rem; line-height:1.4; opacity:0.9; margin-top:8px;">${extracto}</p>
+                                    <p style="font-size:0.75rem; color:var(--naranja-energia); margin-top:10px; font-weight:700;">Seguir leyendo ↗</p>
+                                </div>
+                            `;
+                        }).join('');
                     } else { throw new Error(); }
                 })
                 .catch(() => {
-                    document.getElementById('load-noticias').innerHTML = `<div class="info-card" onclick="window.open('https://su-version-ec.blogspot.com/', '_blank')" style="cursor:pointer; text-align:center;"><h3>📰 LEER ÚLTIMAS NOTICIAS</h3><p>Haz clic para abrir el portal oficial.</p></div>`;
+                    document.getElementById('load-noticias').innerHTML = `<div class="info-card" onclick="window.open('https://su-version-ec.blogspot.com/', '_blank')" style="cursor:pointer; text-align:center;"><h3>📰 LEER ÚLTIMAS NOTICIAS</h3><p>Haz clic para abrir el portal oficial de Su-Versión.</p></div>`;
                 });
-
-            } catch (e) { console.log("Cargando..."); }
-        }
-        fetchCMS();
 
         // Lógica de Radio (Reproductor y Visualizador)
         const audio = document.getElementById('audio');
@@ -197,3 +199,4 @@
     </script>
 </body>
 </html>
+
